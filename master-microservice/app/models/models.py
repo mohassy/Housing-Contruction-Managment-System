@@ -12,7 +12,7 @@ class Stakeholder(BaseModel):
 class Task(BaseModel):
     id: int
     description: str
-    date_due: datetime.date
+    date_due: datetime.date | str
     assigned_stakeholder: Stakeholder
     complete: bool
 

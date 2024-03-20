@@ -9,7 +9,7 @@ service = Service()
 
 @router.post("/", response_model=Project)
 async def create_project(project: Project):
-    service.projects_db.append(project)
+    service.add_project(project)
     return project
 
 
@@ -21,6 +21,10 @@ async def get_project(project_id: int):
     return project
 
 
+@router.delete("/{project_id}")
+async def get_project(project_id: int):
+    service.delete_project_by_id(project_id)
+
 @router.get("/{project_id}/budget", response_model=float)
 async def get_budget(project_id: int):
     project = service.get_project_by_id(project_id)
@@ -29,7 +33,7 @@ async def get_budget(project_id: int):
     return project.budget
 
 
-@router.put("/{project_id}/budget", response_model=Project)
+@router.put("/budget/{project_id}", response_model=Project)
 async def edit_budget(project_id: int, new_budget: float):
     project = service.get_project_by_id(project_id)
     if project is None:
@@ -38,7 +42,7 @@ async def edit_budget(project_id: int, new_budget: float):
     return project
 
 
-@router.get("/{project_id}/status", response_model=str)
+@router.get("/status/{project_id}", response_model=str)
 async def get_project_status(project_id: int):
     project = service.get_project_by_id(project_id)
     if project is None:
@@ -46,7 +50,7 @@ async def get_project_status(project_id: int):
     return project.status
 
 
-@router.put("/{project_id}/status", response_model=Project)
+@router.put("/status/{project_id}", response_model=Project)
 async def edit_project_status(project_id: int, new_status: str):
     project = service.get_project_by_id(project_id)
     if project is None:
