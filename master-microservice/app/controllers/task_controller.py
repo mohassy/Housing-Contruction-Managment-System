@@ -10,15 +10,15 @@ router = APIRouter()
 service = Service()
 
 
-@router.get("/add/{project_id}", response_model=List[Task])
-async def add_task(project_id: int, task: Task):
+@router.get("/{project_id}", response_model=List[Task])
+async def get_tasks(project_id: int, task: Task):
     project = service.get_project(project_id)
     if project is None:
         raise HTTPException(status_code=404, detail="Project not found")
     return project.tasks
 
 
-@router.post("/add/{project_id}", response_model=List[Task])
+@router.post("/{project_id}", response_model=List[Task])
 async def add_task(project_id: int, task: Task):
     task.id = int(time.time() * 3)
     project = service.get_project(project_id)
@@ -29,7 +29,7 @@ async def add_task(project_id: int, task: Task):
     return project.tasks
 
 
-@router.delete("/remove/{project_id}", response_model=List[Task])
+@router.delete("/{project_id}", response_model=List[Task])
 async def remove_task(project_id: int, task_id: int):
     project = service.get_project(project_id)
     if project is None:
@@ -39,7 +39,7 @@ async def remove_task(project_id: int, task_id: int):
     return project.tasks
 
 
-@router.put("/edit/{project_id}/{task_id}", response_model=List[Task])
+@router.put("/{project_id}/{task_id}", response_model=List[Task])
 async def edit_task(project_id: int, task_id: int, updated_task: Task):
     project = service.get_project(project_id)
     if project is None:

@@ -9,13 +9,6 @@ router = APIRouter()
 service = Service()
 
 
-@router.post("/", response_model=Project)
-async def create_project(project: Project):
-    project.id = int(time.time() * 7)
-    service.add_project(project)
-    return project
-
-
 @router.get("/{project_id}", response_model=Project)
 async def get_project(project_id: int):
     project = service.get_project(project_id)
@@ -24,12 +17,19 @@ async def get_project(project_id: int):
     return project
 
 
+@router.post("/", response_model=Project)
+async def create_project(project: Project):
+    project.id = int(time.time() * 7)
+    service.add_project(project)
+    return project
+
+
 @router.delete("/{project_id}")
 async def get_project(project_id: int):
     service.delete_project(project_id)
 
 
-@router.get("/{project_id}/budget", response_model=float)
+@router.get("/budget/{project_id}", response_model=float)
 async def get_budget(project_id: int):
     project = service.get_project(project_id)
     if project is None:

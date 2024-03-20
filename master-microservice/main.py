@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 from dotenv import load_dotenv
 import os
-from app.controllers import  project_controller, stakeholder_controller, task_controller, post_controller
+from app.controllers import project_controller, stakeholder_controller, task_controller, post_controller
 
 app = FastAPI()
 
@@ -12,8 +12,6 @@ app.include_router(task_controller.router, prefix="/task")
 app.include_router(post_controller.router, prefix="/post")
 
 load_dotenv(dotenv_path='./app/config/.env')
-
-
 
 if __name__ == "__main__":
     uvicorn.run(

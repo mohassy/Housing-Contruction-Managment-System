@@ -10,7 +10,15 @@ router = APIRouter()
 service = Service()
 
 
-@router.post("/add/{project_id}", response_model=List[Stakeholder])
+@router.get("/{project_id}", response_model=List[Stakeholder])
+async def get_stakeholders(project_id: int):
+    stakeholders = service.get_project(project_id).stakeholders
+    if stakeholders is None:
+        raise HTTPException(status_code=404, detail="Project not found")
+    return stakeholders
+
+
+@router.post("/{project_id}", response_model=List[Stakeholder])
 async def add_stakeholder(project_id: int, stakeholder: Stakeholder):
     stakeholder.id = int(time.time() * 23)
     project = service.get_project(project_id)
@@ -21,7 +29,7 @@ async def add_stakeholder(project_id: int, stakeholder: Stakeholder):
     return project.stakeholders
 
 
-@router.delete("/remove/{project_id}", response_model=List[Stakeholder])
+@router.delete("/{project_id}", response_model=List[Stakeholder])
 async def remove_stakeholder(project_id: int, stakeholder_id: int):
     project = service.get_project(project_id)
     if project is None:
@@ -33,12 +41,3 @@ async def remove_stakeholder(project_id: int, stakeholder_id: int):
 
     service.update_project(project_id, project)
     return project.stakeholders
-
-
-
-@router.get("/{project_id}", response_model=List[Stakeholder])
-async def get_stakeholders(project_id: int):
-    stakeholders = service.get_project(project_id).stakeholders
-    if stakeholders is None:
-        raise HTTPException(status_code=404, detail="Project not found")
-    return stakeholders
