@@ -20,6 +20,8 @@ class Task(BaseModel):
 class Post(BaseModel):
     id: int
     text: str
+    author: Stakeholder
+    status: str
 
 
 class Project(BaseModel):

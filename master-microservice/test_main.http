@@ -1,11 +1,47 @@
 # Test your FastAPI endpoints
 
-GET http://127.0.0.1:8000/
-Accept: application/json
 
-###
+POST http://127.0.0.1:8000/project/
+Content-Type: application/json
 
-GET http://127.0.0.1:8000/hello/User
-Accept: application/json
+{
+  "id": 1,
+  "name": "Sample Project",
+  "manager_name": "John Doe",
+  "stakeholders": [
+    {
+      "id": 1,
+      "name": "Alice",
+      "role": "Developer"
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "description": "Task 1",
+      "date_due": "2024-03-31",
+      "assigned_stakeholder": {
+        "id": 1,
+        "name": "Alice",
+        "role": "Developer"
+      },
+      "complete": false
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "text": "Hello everyone",
+      "author": {
+        "id": 4,
+        "name": "Mohammed",
+        "role": "Engineer"
+      },
+      "status": "request received by manager"
+    }
+  ],
+  "budget": 10000.0,
+  "status": "In Progress"
+}
 
 ###

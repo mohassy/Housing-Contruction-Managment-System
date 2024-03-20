@@ -8,13 +8,21 @@ cred = credentials.Certificate("app/config/hcms-db-firebase-adminsdk-6t3g4-d0ec7
 firebase_admin.initialize_app(cred)
 # Firestore client
 db = firestore.client()
+
+
 class Service:
     def __init__(self):
-        self.projects_crud = ProjectCrud(db)
+        self.project_crud = ProjectCrud(db)
 
     def add_project(self, project: Project):
-        self.projects_crud.add_project(project)
-    def get_project_by_id(self, project_id):
-        return self.projects_crud.get_project_by_id(project_id)
-    def delete_project_by_id(self, project_id: int):
-        return self.projects_crud.delete_project_by_id(project_id)
+        self.project_crud.add_project(project)
+
+    def get_project(self, project_id):
+        return self.project_crud.get_project(project_id)
+
+    def delete_project(self, project_id: int):
+        return self.project_crud.delete_project(project_id)
+
+    def update_project(self, project_id: int, updated_project: Project):
+        return self.project_crud.update_project(project_id, updated_project)
+
