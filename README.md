@@ -13,7 +13,7 @@ if you're on windows run: .\myenv\Scripts\activate
 
 run: pip install -r requirements.txt
 
-run: main.py
+run: python main.py
 
 server should be up and running
 
