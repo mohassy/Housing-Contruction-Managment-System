@@ -19,3 +19,12 @@ if __name__ == "__main__":
         reload=True if os.environ.get("ENVIRONMENT") == "dev" else False,
         workers=1,
     )
+
+#@app.get("/items/{item_id}")
+#def read_item(item_id:int, q: Union[str, None]=None):
+#    for item in listofItems:
+#        if(item_id == item.item_id):
+#            return{"item_name":item.name, "q":q, "found":"true"}
+#        
+#    return{"item_id":item_id, "q":q, "found":"false"}
+
