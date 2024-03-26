@@ -5,30 +5,28 @@ import os
 import requests
 from typing import Union
 from pydantic import BaseModel
-
-class VMSQuery(BaseModel):
-    locations: list
-    walkabilityBias: Union[float, None] = None #bias a query that values both walkability and environmental concerns to focus only on walkability (vals from 0 to 1)
-
-app = FastAPI()
-
-@app.get("/")
-def read_both(query:VMSQuery):
-    return{"ranking":"apple"}
-    
-#@app.get("/items/{item_id}")
-@app.get("/walkability")#get information about the locations from the datasets
-def read_walkability(query:VMSQuery):
-    
-    return{"ranking":str(arr)}
+import valueMS_pb2
+import valueMS_pb2_grpc
 
 
-@app.get("/environmental")#get information about the locations from the datasets.
-def read_environmental(query:VMSQuery):
-   
-    return{"ranking":str(arr)}
 
 
+
+
+def getEnv(self, request, context):
+    print("not implemented")
+    return valueMS_pb2.ranking(locations = {"stuff"}, rankings = {1.3}, response = "NOT IMPLEMENTED YET!") 
+
+
+def getWalk(self, request, context):
+    print("not implemented")
+    return valueMS_pb2.ranking(locations = {"stuff"}, rankings = {1.3}, response = "NOT IMPLEMENTED YET!") 
+
+
+
+def getBoth(self, request, context):
+    print("not implemented")
+    return valueMS_pb2.ranking(locations = {"stuff"}, rankings = {1.3}, response = "NOT IMPLEMENTED YET!") 
 
 
 base_url = "https://ckan0.cf.opendata.inter.prod-toronto.ca"
