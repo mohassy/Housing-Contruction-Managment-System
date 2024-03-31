@@ -1,8 +1,7 @@
 def get_location_access_type(input_arr) -> list:
-    csv_file = "LegalMS_data.csv"  # Replace with your actual CSV file path
     result_arr = []
-    with open(csv_file, 'r') as f:
-        # Skip the header row (assuming the first row contains column names)
+    with open("LegalMS_data.csv", 'r') as f:
+        # Skip the header row
         next(f)
         for line in f:
             location, access_type = line.strip().split(',')
@@ -15,10 +14,9 @@ def get_location_access_type(input_arr) -> list:
 
 
 def get_avail_locations() -> list:
-    csv_file = "LegalMS_data.csv"  # Replace with your actual CSV file path
     result_arr = []
-    with open(csv_file, 'r') as f:
-        # Skip the header row (assuming the first row contains column names)
+    with open("LegalMS_data.csv", 'r') as f:
+        # Skip the header row
         next(f)
         for line in f:
             location, access_type = line.strip().split(',')

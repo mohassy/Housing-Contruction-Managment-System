@@ -1,7 +1,3 @@
-# import sys
-# sys.path.append(".../COE892_HCMS/legal-microservice/app/LegalMS_grpc/legalMicroservice_pb2.py")
-# sys.path.append(".../COE892_HCMS/legal-microservice/app/LegalMS_grpc/legalMicroservice_pb2_grpc.py")
-
 from app.LegalMS_grpc import legalMicroservice_pb2_grpc
 from app.LegalMS_grpc import legalMicroservice_pb2
 from fastapi import APIRouter
