@@ -1,0 +1,21 @@
+Location    Access Type
+Main St. & Elm St.  COMMON
+5th Ave. & Park Ave.    COMMON
+Maple St. & Oak St. CORRIDOR
+Pine Blvd. & Spruce Ave.    COMMON
+Elm St. & Birch Lane    CONDO
+High St. & Market St.   COMMON
+Cherry St. & Walnut St. RESERVE
+Oak St. & Cedar Ave.    CONDO
+Elm St. & Willow Ave.   COMMON
+Maple St. & Poplar Ave. CONDO
+Ash St. & Beech St.	RESERVE
+Birch Lane & Hemlock Dr.	COMMON
+Spruce Ave. & Fir St.	COMMON
+Elm St. & Dogwood Ave.	CONDO
+Maple St. & Hickory St.	COMMON
+Pine Blvd. & Sycamore Ave.	RESERVE
+Elm St. & Larchmont Ave.	COMMON
+Oak St. & Chestnut St.	CONDO
+Spruce Ave. & Hemlock Dr.	RESERVE
+Billionaire's Row & Adelaide St.    COMMON

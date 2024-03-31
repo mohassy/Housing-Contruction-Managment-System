@@ -32,3 +32,11 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _globals['_LEGALMICROSERVICE']._serialized_start=170
   _globals['_LEGALMICROSERVICE']._serialized_end=290
 # @@protoc_insertion_point(module_scope)
+
+'''
+class LocationRequest:
+  pass
+
+
+class Locations:
+  pass'''

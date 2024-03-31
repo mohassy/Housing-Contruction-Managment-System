@@ -18,5 +18,5 @@ message LocationRequest{
 }
 
 message LocationReply{
-  repeated string availLocations = 1;//reply with all availble locaitons or maybe top 10 locations
+  repeated string availLocations = 1;//reply with all available locations or maybe top 10 locations
 }
