@@ -1,7 +1,7 @@
 import grpc
 import legalMicroservice_pb2
 import legalMicroservice_pb2_grpc
-from app.Dataset import LegalMS_dataset
+from app.LegalMS_data import LegalMS_dataset
 import logging
 from concurrent import futures
 
