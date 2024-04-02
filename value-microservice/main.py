@@ -7,7 +7,43 @@ from typing import Union
 from pydantic import BaseModel
 import valueMS_pb2
 import valueMS_pb2_grpc
+import pandas
 
+environmentlist = {"japan":1,"canada":2}
+walkList = {"japan":3, "canada":1}
+
+def getRanking(bias):
+    global environmentlist
+    global walkList
+    therankings = {}
+    for key in environmentlist.keys(): #might want to normalize the environment and walking values. 
+        therankings.update({key:(environmentlist[key]*(1-bias) + walkList[key]*bias)}) #make a new list with the environment and walking defined
+        thesort = sorted(therankings.items(), key=lambda x:x[1], reverse=True) #sort it based 
+    return thesort
+
+def updateLists(locations):
+    print("updating lists...")
+    #read locations.contents.
+    global environmentlist
+    global walkList
+    environmentlist.clear()
+    walkList.clear()
+    for location in locations:
+        print(location) 
+        #find location in the excel sheet
+        name = location
+        EnvironmentValue = 3 #need to fetch this from the sheet
+        WalkValue = 3 #fetch this from sheet\
+        foundIt = True
+        if(foundIt):
+            environmentlist.update({name:EnvironmentValue})
+            walkList.update({name:WalkValue})
+        else:
+            print("didn't find entry for " + location)
+            #should we return an exception??
+        
+
+print(getRanking(0))
 
 
 
@@ -15,18 +51,20 @@ import valueMS_pb2_grpc
 
 def getEnv(self, request, context):
     print("not implemented")
-    return valueMS_pb2.ranking(locations = {"stuff"}, rankings = {1.3}, response = "NOT IMPLEMENTED YET!") 
+
+    return valueMS_pb2.ranking(rankings = {getRanking(0)}, response = "NOT IMPLEMENTED YET!") 
 
 
 def getWalk(self, request, context):
+
     print("not implemented")
-    return valueMS_pb2.ranking(locations = {"stuff"}, rankings = {1.3}, response = "NOT IMPLEMENTED YET!") 
+    return valueMS_pb2.ranking(rankings = {getRanking(1)}, response = "NOT IMPLEMENTED YET!") 
 
 
 
 def getBoth(self, request, context):
     print("not implemented")
-    return valueMS_pb2.ranking(locations = {"stuff"}, rankings = {1.3}, response = "NOT IMPLEMENTED YET!") 
+    return valueMS_pb2.ranking(rankings = {getRanking(0.5)}, response = "NOT IMPLEMENTED YET!") 
 
 
 base_url = "https://ckan0.cf.opendata.inter.prod-toronto.ca"
