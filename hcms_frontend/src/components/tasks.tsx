@@ -1,10 +1,15 @@
-import React from 'react';
+import {useState} from 'react';
 import { Container, Row, Col, Card, Form, Button, Table } from 'react-bootstrap';
 import { Task, Stakeholder } from './models'; // Import your Task and Stakeholder models
 
 const Tasks = () => {
+
     // Dummy task objects
-    const tasks = [
+    const [description, setDescription] = useState('');
+    const [dueDate, setDueDate] = useState(Date);
+    const [assignedTo, setAssignedTo] = useState('');
+
+    const [tasks, setTasks] = useState([
         new Task({
             id: 1,
             description: "Buy groceries for next week",
@@ -26,8 +31,38 @@ const Tasks = () => {
             assigned_stakeholder: new Stakeholder({ id: 3, name: "Michael Johnson", role: "Intern" }), // Example stakeholder
             complete: false
         })
-    ];
+    ]);
 
+    const handleAdd = () => {
+        // Handle saving logic
+        const newTask = new Task({
+            id: tasks.length + 1,
+            description,
+            date_due: dueDate,
+            assigned_stakeholder: new Stakeholder({ id: tasks.length + 1, name: assignedTo, role: '' }),
+            complete: false
+        });
+        setTasks([...tasks, newTask]);
+        setDescription('');
+        setDueDate('');
+        setAssignedTo('');
+    };
+
+    const handleDelete = (taskId: number) => {
+        // Handle delete logic
+        setTasks(tasks.filter(task => task.id !== taskId));
+    };
+    const handleFinish = (taskId: number) => {
+        // Handle finish logic
+        const updatedTasks = tasks.map(task => {
+            if (task.id === taskId) {
+                return { ...task, complete: true };
+            } else {
+                return task;
+            }
+        });
+        setTasks(updatedTasks);
+    };
     return (
         <section className="vh-100" style={{ backgroundColor: "#eee" }}>
             <Container className="py-5 h-100">
@@ -55,13 +90,19 @@ const Tasks = () => {
                                             <td>{task.assigned_stakeholder.name}</td>
                                             <td>{task.complete ? 'Complete' : 'In Progress'}</td>
                                             <td>
-                                                <Col className="d-flex">
-                                                    <Button type="submit" variant="danger" className="me-1">
+                                                <Col className="w-100">
+                                                    <Button type="submit" variant="outline-success"
+                                                            className={"me-1"}
+                                                            onClick={() => handleFinish(task.id)}
+                                                            disabled={task.complete}
+                                                    >
+                                                        Finish
+                                                    </Button>
+                                                    <Button type="submit" variant="outline-danger"
+                                                            onClick={() => handleDelete(task.id)}>
                                                         Delete
                                                     </Button>
-                                                    <Button type="submit" variant="success">
-                                                        Finished
-                                                    </Button>
+
                                                 </Col>
                                             </td>
                                         </tr>
@@ -74,20 +115,24 @@ const Tasks = () => {
                                             <Form.Control type="text" placeholder="Description"
                                                           as="textarea"
                                                           rows={2}
+                                                          onChange={(e) => setDescription(e.target.value)}
                                             />
                                         </td>
                                         <td>
-                                            <Form.Control type="text" placeholder="Due Date"/>
+                                            <Form.Control type="date" placeholder="Due Date"
+                                                          onChange={(e) => setDueDate(e.target.value)}/>
                                         </td>
                                         <td>
-                                            <Form.Control type="text" placeholder="Assigned To"/>
+                                            <Form.Control type="text" placeholder="Assigned To"
+                                                          onChange={(e) => setAssignedTo(e.target.value)}/>
                                         </td>
                                         <td>
-                                            <Form.Control type="text" placeholder="Status"/>
+                                            <Form.Control type="text" placeholder="Starting"
+                                                          disabled={true}/>
                                         </td>
                                         <td>
-                                            <Button className={"col-12"} type="submit" variant="primary">
-                                                Save
+                                            <Button className={"col-12"} type="submit" variant="primary" onClick={handleAdd}>
+                                                Add
                                             </Button>
                                         </td>
                                     </tr>

@@ -1,64 +1,106 @@
-import React, { useState } from 'react';
-import { Col, Row, Button, Stack, Form } from 'react-bootstrap';
+import { useState } from 'react';
+import {Col, Button, Form, Tab, Tabs, Container, Stack} from 'react-bootstrap';
 
 const dummyPosts = [
-    { id: 1, text: 'Dummy Post 1', author: { name: 'Author 1' }, due_date: 'Today', status: 'Draft' },
-    { id: 2, text: 'Dummy Post 2', author: { name: 'Author 2' }, due_date: 'Today', status: 'Published' },
-    { id: 3, text: 'Dummy Post 3', author: { name: 'Author 3' }, due_date: 'Today', status: 'Published' },
+    { id: 1, text: 'Dummy Post 1', author: { name: 'Author 1' }, due_date: new Date(Date.UTC(2001, 1, 23)), status: 'Draft' },
+    { id: 2, text: 'Dummy Post 2', author: { name: 'Author 2' }, due_date: new Date(Date.UTC(2001, 1, 23)), status: 'Published' },
+    { id: 3, text: 'Dummy Post 3', author: { name: 'Author 3' }, due_date: new Date(Date.UTC(2001, 1, 23)), status: 'Published' },
     // Add more dummy posts as needed
 ];
 
-const PostList = () => {
-    const [showForm, setShowForm] = useState(false);
+const Posts = () => {
+    const [posts, setPosts] = useState(dummyPosts);
+    const [postText, setPostText] = useState('');
+    const [author, setAuthor] = useState('');
+    const [dueDate, setDueDate] = useState(Date.UTC.prototype);
 
-    const handleCreatePost = () => {
-        setShowForm(!showForm);
+
+    const handleCreatePost = (e: any) => {
+        e.preventDefault();
+        const newPost = {
+            id: posts.length + 1,
+            text: postText,
+            author: { name: author },
+            due_date: new Date(dueDate),
+            status: 'Draft'
+        };
+        setPosts([...posts, newPost]);
+        setPostText('');
+        setAuthor('');
+        setDueDate('');
+    };
+
+    const handlePostDelete = (postId: number) => {
+        const updatedPosts = posts.filter(post => post.id !== postId);
+        setPosts(updatedPosts);
+    };
+
+    const handlePostApprove = (postId: number) => {
+        const updatedPosts = posts.map(post => {
+            if (post.id === postId) {
+                return { ...post, status: 'Approved' };
+            }
+            return post;
+        });
+        setPosts(updatedPosts);
     };
 
     return (
-        <Col className={"w-50 bg-body-secondary p-3"}>
-            <Button className={'float-end'} variant={!showForm ? "success" : "secondary"} onClick={handleCreatePost}>{!showForm ? "New Post" : "Close"}</Button>
-            {showForm && (
-                <Form className="m-5">
-                    <Form.Group controlId="formPostText" className={"m-3"}>
-                        <Row >
-                            <Form.Control className={"mb-2 w-75"} type="text" placeholder="Enter Text"
-                                          as="textarea"
-                                          rows={3} // Set rows to 3 for a height of 3 lines
+        <section className="vh-100" style={{ backgroundColor: "#eee" }}>
+            <Container className="py-5 h-100">
+                <Col className={"w-50 bg-body-secondary p-3"}>
+                    <Tabs defaultActiveKey="viewPosts" className="mb-4">
+                        <Tab eventKey="viewPosts" title="View Posts">
+                            {posts.map(post => (
+                                <Container className={"mb-2 p-2 border-bottom border-end border-5 bg-light-subtle"}>
+                                    <Stack direction={"horizontal"}
+                                           className={"rounded border-bottom border-end border-2 border-opacity-50 border-success-subtle m-2 p-2 bg-light-subtle"}>
+                                        <h6 className={"w-100 text-success text-center"}>{post.text}</h6>
+                                    </Stack>
+                                    <Stack direction={"horizontal"}
+                                           className={"rounded border-bottom border-end border-2 border-opacity-50 pt-1 border-secondary-subtle m-2 bg-secondary-subtle"}>
+                                        <Stack direction="horizontal" gap={3} className={"w-100 justify-content-evenly"}>
+                                            <p>By: {post.author.name}</p>
+                                            <div className="vr"/>
+                                            <p >Due Date: {post.due_date.toLocaleDateString()}</p>
+                                            <div className="vr"/>
+                                            <p>Status: {post.status}</p>
+                                        </Stack>
+                                    </Stack>
+                                    <Stack direction={"horizontal"} className={"w-100 align-items-center justify-content-evenly"}>
+                                        <Button variant="outline-success" onClick={() => handlePostApprove(post.id)}>Approve</Button>
+                                        <Button variant="outline-danger" onClick={() => handlePostDelete(post.id)}>Delete</Button>
+                                    </Stack>
+                                </Container>
 
-                            />
-                        </Row>
-                        <Row>
-                            <Form.Control className={"mb-2 w-50"} type="text" placeholder="Author" />
-                        </Row>
-                        <Row>
-                            <Form.Control className={"mb-2 w-50"} type="text" placeholder="Due Date" />
-                        </Row>
+                            ))}
+                        </Tab>
+                        <Tab eventKey="createPost" title="Create Post">
+                            <Form onSubmit={handleCreatePost} className="">
+                                <Form.Group controlId="formPostText" className={"m-3"}>
+                                    <Form.Label className={"me-3"}>Post Text</Form.Label>
+                                    <Form.Control className={"mb-2 w-75"} type="text" placeholder="Enter Text" as="textarea" rows={3} value={postText} onChange={(e) => setPostText(e.target.value)} />
+                                </Form.Group>
+                                <Form.Group controlId="formAuthor" className={"m-3"}>
+                                    <Form.Label className={"me-3"}>Author</Form.Label>
+                                    <Form.Control className={"mb-2 w-50"} type="text" placeholder="Enter Author" value={author} onChange={(e) => setAuthor(e.target.value)} />
+                                </Form.Group>
+                                <Form.Group controlId="formDueDate" className={"m-3"}>
+                                    <Form.Label className={"me-3"}>Due Date</Form.Label>
+                                    <Form.Control className={"mb-2 w-50"} type="date" placeholder="Enter Due Date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
+                                </Form.Group>
+                                <Button className={"m-3"} variant="success" type="submit">
+                                    Create Post
+                                </Button>
+                            </Form>
+                        </Tab>
+                    </Tabs>
+                </Col>
+            </Container>
 
+        </section>
 
-                    </Form.Group>
-                    <Button className={"m-2"} variant="primary" type="submit">
-                        Submit
-                    </Button>
-                </Form>
-            )}
-            {dummyPosts.map(post => (
-                <Row className={"border border-2 border-opacity-50 border-primary m-5 bg-light-subtle"}>
-                    <Stack>
-                        <h4 className={"p-2 text-success"}>{post.text}</h4>
-                    </Stack>
-                    <Stack direction="horizontal" gap={3} className={"d-flex flex-row justify-content-between"}>
-                        <p className={"p-2 text-primary-emphasis"}>Author: {post.author.name}</p>
-                        <p className={"p-2 text-info-emphasis"}>Due Date: {post.due_date}</p>
-                        <div className="vr"/>
-                        <p className={"p-2 col-3 text-warning-emphasis"}>Status: {post.status}</p>
-                        <Button variant="outline-success">Approve</Button>
-                        <Button variant="outline-danger">Delete</Button>
-                    </Stack>
-                </Row>
-            ))}
-        </Col>
     );
 };
 
-export default PostList;
+export default Posts;
