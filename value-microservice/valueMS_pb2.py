@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rvalueMS.proto\"\x1c\n\x07rankreq\x12\x11\n\tlocations\x18\x01 \x03(\t\"@\n\x07ranking\x12\x11\n\tlocations\x18\x01 \x03(\t\x12\x10\n\x08rankings\x18\x02 \x03(\x02\x12\x10\n\x08response\x18\x03 \x02(\t2u\n\x11valueMicroservice\x12\x1e\n\x06getEnv\x12\x08.rankreq\x1a\x08.ranking\"\x00\x12\x1f\n\x07getWalk\x12\x08.rankreq\x1a\x08.ranking\"\x00\x12\x1f\n\x07getBoth\x12\x08.rankreq\x1a\x08.ranking\"\x00')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rvalueMS.proto\"\x1c\n\x07rankreq\x12\x11\n\tlocations\x18\x01 \x02(\t\"@\n\x07ranking\x12\x11\n\tlocations\x18\x01 \x02(\t\x12\x10\n\x08rankings\x18\x02 \x02(\x02\x12\x10\n\x08response\x18\x03 \x02(\t2u\n\x11valueMicroservice\x12\x1e\n\x06getEnv\x12\x08.rankreq\x1a\x08.ranking\"\x00\x12\x1f\n\x07getWalk\x12\x08.rankreq\x1a\x08.ranking\"\x00\x12\x1f\n\x07getBoth\x12\x08.rankreq\x1a\x08.ranking\"\x00')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
