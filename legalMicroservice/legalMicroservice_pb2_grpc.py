@@ -15,12 +15,12 @@ class legalMicroserviceStub(object):
             channel: A grpc.Channel.
         """
         self.getLocations = channel.unary_unary(
-                '/legal-microservice/getLocations',
+                '/legalMicroservice/getLocations',
                 request_serializer=legalMicroservice__pb2.Locations.SerializeToString,
                 response_deserializer=legalMicroservice__pb2.LocationStatus.FromString,
                 )
         self.availableLocations = channel.unary_unary(
-                '/legal-microservice/availableLocations',
+                '/legalMicroservice/availableLocations',
                 request_serializer=legalMicroservice__pb2.LocationRequest.SerializeToString,
                 response_deserializer=legalMicroservice__pb2.LocationReply.FromString,
                 )
@@ -56,7 +56,7 @@ def add_legalMicroserviceServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'legal-microservice', rpc_method_handlers)
+            'legalMicroservice', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
@@ -75,7 +75,7 @@ class legalMicroservice(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/legal-microservice/getLocations',
+        return grpc.experimental.unary_unary(request, target, '/legalMicroservice/getLocations',
             legalMicroservice__pb2.Locations.SerializeToString,
             legalMicroservice__pb2.LocationStatus.FromString,
             options, channel_credentials,
@@ -92,7 +92,7 @@ class legalMicroservice(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/legal-microservice/availableLocations',
+        return grpc.experimental.unary_unary(request, target, '/legalMicroservice/availableLocations',
             legalMicroservice__pb2.LocationRequest.SerializeToString,
             legalMicroservice__pb2.LocationReply.FromString,
             options, channel_credentials,

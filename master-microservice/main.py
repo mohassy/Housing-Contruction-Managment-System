@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 import os
 from app.controllers import project_controller, stakeholder_controller, task_controller, post_controller
-
+from legalMicroservice import legalMicroservice_pb2, legalMicroservice_pb2_grpc, LegalMS_grpc
 app = FastAPI()
 
 app.add_middleware(
@@ -31,6 +31,11 @@ def get_rank(locations: List[str]):
     # values microservice ranking (Ethan)
 
     # policy microservice ranking (Astha)
+    # covert list to a string
+    legalMS_locs = ','.join(locations)
+    legalMS_response_str = legalMS_stub.getLocations(legalMicroservice_pb2.Locations(locations=legalMS_locs))
+    # convert response (string) into an array
+    legalMS_response = legalMS_response_str.split(',')  # expected: 1D array of available locations
 
     # values microservice ranking (Shadman)
 
