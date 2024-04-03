@@ -11,7 +11,7 @@ import valueMS_pb2_grpc
 import pandas
 import grpc
 import threading
-
+#python -m grpc_tools.protoc -I./protos --python_out=. --grpc_python_out=. ./protos/valueMS.proto
 environmentlist = {"japan":1,"canada":2}
 walkList = {"japan":3, "canada":1}
 
@@ -23,9 +23,12 @@ class main(valueMS_pb2_grpc.valueMicroserviceServicer):
         global environmentlist
         global walkList
         therankings = {}
+        thesort = 0
         for key in environmentlist.keys(): #might want to normalize the environment and walking values. 
             therankings.update({key:(environmentlist[key]*(1-bias) + walkList[key]*bias)}) #make a new list with the environment and walking defined
-            thesort = sorted(therankings.items(), key=lambda x:x[1], reverse=True) #sort it based 
+        print("boutta sort")
+        thesort = sorted(therankings.items(), key=lambda x:x[1], reverse=True) #sort it based on the value.
+        print("done sorting")
         return thesort
 
     def updateLists(self, locs):
@@ -59,19 +62,20 @@ class main(valueMS_pb2_grpc.valueMicroserviceServicer):
 
 
     def getEnv(self, request, context):
-        updateLists(request.locations)
-        return valueMS_pb2.ranking(rankings = {str(getRanking(0))}, response = "NOT IMPLEMENTED YET!") 
+        self.updateLists(request.locations)
+        return valueMS_pb2.ranking(rankings = str(self.getRanking(0)), response = "NOT IMPLEMENTED YET!") 
+    
 
 
     def getWalk(self, request, context):
-        updateLists(request.locations)
-        return valueMS_pb2.ranking(rankings = {str(getRanking(1))}, response = "NOT IMPLEMENTED YET!") 
+        self.updateLists(request.locations)
+        return valueMS_pb2.ranking(rankings = str(self.getRanking(1)), response = "NOT IMPLEMENTED YET!") 
 
 
 
     def getBoth(self, request, context):
-        updateLists(request.locations)
-        return valueMS_pb2.ranking(rankings = {str(getRanking(0.5))}, response = "NOT IMPLEMENTED YET!") 
+        self.updateLists(request.locations)
+        return valueMS_pb2.ranking(rankings = str(self.getRanking(0.5)), response = "NOT IMPLEMENTED YET!") 
 
 def serve(): #GRPC stuff.
     print("SERVIN'!")
