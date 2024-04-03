@@ -22,6 +22,9 @@ app.include_router(stakeholder_controller.router, prefix="/stakeholder")
 app.include_router(task_controller.router, prefix="/task")
 app.include_router(post_controller.router, prefix="/post")
 
+# Create a gRPC channel and stub for Legal MS
+channel = grpc.insecure_channel("localhost:50051")
+legalMS_stub = legalMicroservice_pb2_grpc.legalMicroserviceStub(channel)
 
 @app.post("/rank")
 def get_rank(locations: List[str]):
