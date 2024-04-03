@@ -33,3 +33,11 @@ class Project(BaseModel):
     posts: List[Post] = []
     budget: Optional[float] = None  # Optional[float] means the budget is not required
     status: Optional[str] = None
+
+
+class BudgetEdit(BaseModel):
+    new_budget: float
+
+
+class StatusEdit(BaseModel):
+    new_status: str
