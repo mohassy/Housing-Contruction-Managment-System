@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import 'bootstrap/dist/css/bootstrap.css'
 import {
     createBrowserRouter,
     RouterProvider,
@@ -9,7 +8,7 @@ import {
 import LandingPage from "./pages/landing.tsx";
 import ErrorPage from "./pages/error.tsx";
 import DashBoard from "./pages/dashBoard.tsx";
-
+import './custom-bootstrap.scss';
 
 const router = createBrowserRouter([
     {

@@ -1,0 +1,19 @@
+// Import Bootstrap's default variables
+// Import Bootstrap's default variables
+@import '../node_modules/bootstrap/scss/functions';
+@import '../node_modules/bootstrap/scss/variables';
+
+// Override Bootstrap's variables for dark theme
+$theme-colors: (
+        "light":      #dad8e4,
+        "dark":       #111320,
+        "primary":    #2c3c68,
+        "secondary":  #f4301b,
+        "info":       #ee334e,
+        "success":    #109e5b,
+        "warning":    #e0c911,
+        "danger": #c13220,
+);
+
+// Import Bootstrap SCSS
+@import '../node_modules/bootstrap/scss/bootstrap';

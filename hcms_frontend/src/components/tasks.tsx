@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import { Row, Col, Card, Form, Button, Table } from 'react-bootstrap';
+import { Col, Card, Form, Button, Table } from 'react-bootstrap';
 import { Task } from './models';
 import {useParams} from "react-router-dom"; // Import your Task and Stakeholder models
 
@@ -12,7 +12,6 @@ const Tasks = ({ project_tasks }: TasksProps) => {
     const [description, setDescription] = useState('');
     const [dueDate, setDueDate] = useState(Date);
     const [assignedTo, setAssignedTo] = useState('');
-
     const [tasks, setTasks] = useState(project_tasks);
     let { projectID } = useParams();
     const handleAdd = async () => {
@@ -102,7 +101,7 @@ const Tasks = ({ project_tasks }: TasksProps) => {
     };
 
     return (
-        <Row className="d-flex justify-content-center align-items-center">
+        <Col className="h-75 bg-body-secondary justify-content-center align-items-center">
                 <Card className="rounded-3">
                     <Card.Body className="p-4">
                         <h4 className="text-center my-3 pb-3">Project Tasks</h4>
@@ -176,7 +175,7 @@ const Tasks = ({ project_tasks }: TasksProps) => {
                         </Table>
                     </Card.Body>
                 </Card>
-        </Row>
+        </Col>
     );
 }
 
