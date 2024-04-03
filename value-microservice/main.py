@@ -5,38 +5,93 @@ import os
 import requests
 from typing import Union
 from pydantic import BaseModel
+import concurrent.futures
 import valueMS_pb2
 import valueMS_pb2_grpc
+import pandas
+import grpc
+import threading
+
+environmentlist = {"japan":1,"canada":2}
+walkList = {"japan":3, "canada":1}
+
+df = pandas.read_csv('valuems.csv')
+vals = df.values
+class main(valueMS_pb2_grpc.valueMicroserviceServicer):
+
+    def getRanking(self, bias):
+        global environmentlist
+        global walkList
+        therankings = {}
+        for key in environmentlist.keys(): #might want to normalize the environment and walking values. 
+            therankings.update({key:(environmentlist[key]*(1-bias) + walkList[key]*bias)}) #make a new list with the environment and walking defined
+            thesort = sorted(therankings.items(), key=lambda x:x[1], reverse=True) #sort it based 
+        return thesort
+
+    def updateLists(self, locs):
+        print("updating lists...")
+        locations = locs.split(",")
+        #read locations.contents.
+        global environmentlist
+        global walkList
+        environmentlist.clear()
+        walkList.clear()
+        for location in locations:
+            print(location) 
+            foundIt = False
+            for val in vals:
+                
+                if(val[0] == location): #if the entry is the correct one.
+                    name = location
+                    EnvironmentValue = val[1] #need to fetch this from the sheet
+                    WalkValue = val[2] #fetch this from sheet\
+                    foundIt = True
+            if(foundIt):
+                environmentlist.update({name:EnvironmentValue})
+                walkList.update({name:WalkValue})
+            else:
+                print("didn't find entry for " + location)
+                #should we return an exception??
+            
+
+    
+
+
+
+    def getEnv(self, request, context):
+        updateLists(request.locations)
+        return valueMS_pb2.ranking(rankings = {str(getRanking(0))}, response = "NOT IMPLEMENTED YET!") 
+
+
+    def getWalk(self, request, context):
+        updateLists(request.locations)
+        return valueMS_pb2.ranking(rankings = {str(getRanking(1))}, response = "NOT IMPLEMENTED YET!") 
+
+
+
+    def getBoth(self, request, context):
+        updateLists(request.locations)
+        return valueMS_pb2.ranking(rankings = {str(getRanking(0.5))}, response = "NOT IMPLEMENTED YET!") 
+
+def serve(): #GRPC stuff.
+    print("SERVIN'!")
+    server = grpc.server(concurrent.futures.ThreadPoolExecutor(max_workers=10))
+    valueMS_pb2_grpc.add_valueMicroserviceServicer_to_server(main(), server)
+    server.add_insecure_port('[::]:50051')
+    server.start()
+    server.wait_for_termination()
 
 
 
 
-
-
-def getEnv(self, request, context):
-    print("not implemented")
-    return valueMS_pb2.ranking(locations = {"stuff"}, rankings = {1.3}, response = "NOT IMPLEMENTED YET!") 
-
-
-def getWalk(self, request, context):
-    print("not implemented")
-    return valueMS_pb2.ranking(locations = {"stuff"}, rankings = {1.3}, response = "NOT IMPLEMENTED YET!") 
-
-
-
-def getBoth(self, request, context):
-    print("not implemented")
-    return valueMS_pb2.ranking(locations = {"stuff"}, rankings = {1.3}, response = "NOT IMPLEMENTED YET!") 
-
-
-base_url = "https://ckan0.cf.opendata.inter.prod-toronto.ca"
- 
-# Datasets are called "packages". Each package can contain many "resources"
-# To retrieve the metadata for this package and its resources, use the package name in this page's URL:
-#https://ckan0.cf.opendata.inter.prod-toronto.ca/api/3/action/package_show?id=pedestrian-network API for all pedestrian network related stuff.
-
-#"https://ckan0.cf.opendata.inter.prod-toronto.ca/dataset/4b5c7a84-dea1-4137-875d-71d7f662c83f/resource/4fb0563f-4ea4-40f4-87ad-9386b7aad2eb/download/pedestrian-network-data-2952.csv",
-#^Download for the pedestrian network data as CSV. Do i need to download? coordinates are in 
-url = base_url + "/api/3/action/package_show"
-params = { "id": "pedestrian-network"}
-#package = requests.get(url, params = params).json()
+if __name__ == '__main__':
+    try:
+        grpcthread = threading.Thread(target=serve)#serve()
+        grpcthread.start()
+        grpcthread.join() 
+    except KeyboardInterrupt:
+        print('Interrupted')
+        try:
+            sys.exit(0)
+        except SystemExit:
+            os._exit(0)

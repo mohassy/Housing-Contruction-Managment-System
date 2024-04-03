@@ -7,12 +7,12 @@ service valueMicroservice{
 
 
 message rankreq{
- repeated string locations = 1;
+ required string locations = 1;
 }
 
 //Commands
 message ranking{
- repeated string locations = 1;
- repeated float rankings = 2;
+ required string locations = 1;
+ required float rankings = 2;
  required string response = 3;
 }
