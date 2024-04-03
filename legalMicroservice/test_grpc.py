@@ -12,5 +12,5 @@ def getLocation(locations_str):
     return result
 
 if __name__ == "__main__":
-    returnVal = getLocation('Main St. & Elm St.,Maple St. & Oak St.,Spruce Ave. & Fir St.,High St. & Market St.')
+    returnVal = getLocation('Etobicoke West Mall,Banbury-Don Mills,Clairlea-Birchmount,Mimico')
     print(returnVal)

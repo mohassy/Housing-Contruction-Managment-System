@@ -8,13 +8,12 @@ from concurrent import futures
 
 class LegalMS(legalMicroservice_pb2_grpc.legalMicroserviceServicer):
     def getLocations(self, request, context):
-        print("server called for getLocations")
         result = LegalMS_dataset.get_location_access_type(request.locations)  # expected : string
-        return legalMicroservice_pb2.LocationStatus(result)
+        return legalMicroservice_pb2.LocationStatus(status=result)
 
     def availableLocations(self, request, context):
         result_arr = LegalMS_dataset.get_avail_locations()  # expected: string
-        return legalMicroservice_pb2.LocationReply(result_arr)
+        return legalMicroservice_pb2.LocationReply(availLocations=result_arr)
 
 
 def serve():

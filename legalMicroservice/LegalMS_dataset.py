@@ -36,7 +36,7 @@ def get_avail_locations() -> str:
 
 '''
 # Example usage
-input_arr = "Main St. & Elm St.,Maple St. & Oak St.,Spruce Ave. & Fir St.,High St. & Market St."
+input_arr = 'Etobicoke West Mall,Banbury-Don Mills,Clairlea-Birchmount,Mimico'
 result_arr = get_location_access_type(input_arr)
 print(result_arr)'''
 
