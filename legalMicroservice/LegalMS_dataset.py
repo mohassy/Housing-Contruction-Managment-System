@@ -1,4 +1,5 @@
-def get_location_access_type(input_arr) -> list:
+def get_location_access_type(input_string) -> str:
+    locations = input_string.split(',')
     result_arr = []
     with open("LegalMS_data.csv", 'r') as f:
         # Skip the header row
@@ -6,14 +7,17 @@ def get_location_access_type(input_arr) -> list:
         for line in f:
             location, access_type = line.strip().split(',')
             # Check for location existence in input_arr (case-insensitive)
-            if location.strip().upper() in [loc.upper() for loc in input_arr]:
+            if location.strip().upper() in [loc.upper() for loc in locations]:
                 if access_type.strip().upper() == 'COMMON':
                     result_arr.append(location.strip())
 
-    return result_arr
+    if result_arr:
+        return ','.join(result_arr)  # Return a string if there are results
+    else:
+        return ""  # Return an empty string if no results found
 
 
-def get_avail_locations() -> list:
+def get_avail_locations() -> str:
     result_arr = []
     with open("LegalMS_data.csv", 'r') as f:
         # Skip the header row
@@ -24,23 +28,16 @@ def get_avail_locations() -> list:
             if access_type.strip().upper() == 'COMMON':
                 result_arr.append(location.strip())
 
-    return result_arr
+    if result_arr:
+        return ','.join(result_arr)  # Return a string if there are results
+    else:
+        return ""  # Return an empty string if no results found
 
 
 '''
 # Example usage
-input_arr = ["Main St. & Elm St.", "Maple St. & Oak St.", "Spruce Ave. & Fir St.","High St. & Market St."]
-result_arr = getLocationAccessType(input_arr)
+input_arr = "Main St. & Elm St.,Maple St. & Oak St.,Spruce Ave. & Fir St.,High St. & Market St."
+result_arr = get_location_access_type(input_arr)
+print(result_arr)'''
 
-if result_arr:
-  print("Locations with 'COMMON' access type:", result_arr)
-else:
-  print("No locations with 'COMMON' access type found in the input array.")
 
-print("-------------------- TEST 2 -------------------------")
-result_arr = getAvailLocations()
-
-if result_arr:
-  print("Available locations", result_arr)
-else:
-  print("No locations with 'COMMON' access type found in the input array.")'''

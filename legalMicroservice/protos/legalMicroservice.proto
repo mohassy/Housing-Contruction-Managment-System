@@ -1,0 +1,22 @@
+syntax = 'proto3';
+
+service legalMicroservice{
+  rpc getLocations(Locations) returns(LocationStatus);
+  rpc availableLocations(LocationRequest) returns (LocationReply);
+}
+
+message Locations{
+   string locations = 1;//receive 5 locations in a single string
+}
+
+message LocationStatus{
+    string status = 1;//query these locations and return their status (common, condo, corridor, reserve)
+}
+
+message LocationRequest{
+    string request = 1; //send a string to initiate the service "available locations"
+}
+
+message LocationReply{
+    string availLocations = 1;//reply with all available locations in a single string
+}

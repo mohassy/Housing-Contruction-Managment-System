@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x17legalMicroservice.proto\"\x1e\n\tLocations\x12\x11\n\tlocations\x18\x01 \x03(\t\" \n\x0eLocationStatus\x12\x0e\n\x06status\x18\x01 \x03(\t\"\"\n\x0fLocationRequest\x12\x0f\n\x07request\x18\x01 \x03(\t\"\'\n\rLocationReply\x12\x16\n\x0e\x61vailLocations\x18\x01 \x03(\t2x\n\x11legalMicroservice\x12+\n\x0cgetLocations\x12\n.Locations\x1a\x0f.LocationStatus\x12\x36\n\x12\x61vailableLocations\x12\x10.LocationRequest\x1a\x0e.LocationReplyb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x17legalMicroservice.proto\"\x1e\n\tLocations\x12\x11\n\tlocations\x18\x01 \x01(\t\" \n\x0eLocationStatus\x12\x0e\n\x06status\x18\x01 \x01(\t\"\"\n\x0fLocationRequest\x12\x0f\n\x07request\x18\x01 \x01(\t\"\'\n\rLocationReply\x12\x16\n\x0e\x61vailLocations\x18\x01 \x01(\t2x\n\x11legalMicroservice\x12+\n\x0cgetLocations\x12\n.Locations\x1a\x0f.LocationStatus\x12\x36\n\x12\x61vailableLocations\x12\x10.LocationRequest\x1a\x0e.LocationReplyb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,11 +32,3 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _globals['_LEGALMICROSERVICE']._serialized_start=170
   _globals['_LEGALMICROSERVICE']._serialized_end=290
 # @@protoc_insertion_point(module_scope)
-
-'''
-class LocationRequest:
-  pass
-
-
-class Locations:
-  pass'''
