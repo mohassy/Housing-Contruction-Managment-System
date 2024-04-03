@@ -10,9 +10,10 @@ google-cloud-firestore = "*"
 firebase-admin = "*"
 pydantic = "*"
 python-dotenv = "*"
+grpcio = "*"
+grpcio-tools = "*"
+
 
 [dev-packages]
 
-[requires]
-python_version = "3.12"
-python_full_version = "3.12.2"
+
