@@ -51,4 +51,5 @@ async def edit_task(project_id: int, task_id: int, updated_task: Task):
             task.assigned_stakeholder = updated_task.assigned_stakeholder
             task.complete = updated_task.complete
             break
+    service.update_project(project_id, project)
     return project.tasks

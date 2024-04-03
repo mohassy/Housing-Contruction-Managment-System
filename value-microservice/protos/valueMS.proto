@@ -1,0 +1,18 @@
+service valueMicroservice{
+	rpc getEnv (rankreq) returns (ranking){}
+	rpc getWalk (rankreq) returns (ranking){}
+	rpc getBoth (rankreq) returns (ranking){}
+}
+
+
+
+message rankreq{
+ required string locations = 1;
+}
+
+//Commands
+message ranking{
+ required string locations = 1;
+ required float rankings = 2;
+ required string response = 3;
+}

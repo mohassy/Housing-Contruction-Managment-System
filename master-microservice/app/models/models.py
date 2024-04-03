@@ -13,14 +13,14 @@ class Task(BaseModel):
     id: int
     description: str
     date_due: datetime.date | str
-    assigned_stakeholder: Stakeholder
+    assigned_stakeholder: str
     complete: bool
 
 
 class Post(BaseModel):
     id: int
     text: str
-    author: Stakeholder
+    author: str
     status: str
 
 
