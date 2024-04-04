@@ -12,7 +12,6 @@ message rankreq{
 
 //Commands
 message ranking{
- required string locations = 1;
- required float rankings = 2;
- required string response = 3;
+ required string rankings = 1;
+ required string response = 2;
 }
