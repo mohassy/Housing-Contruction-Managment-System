@@ -1,7 +1,7 @@
 from typing import List
 
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 import grpc
@@ -10,10 +10,8 @@ import sys
 
 import os
 sys.path.append("../value-microservice/")
-import valueMS_pb2_grpc
-import valueMS_pb2
 from app.controllers import project_controller, stakeholder_controller, task_controller, post_controller
-from legalMicroservice import legalMicroservice_pb2, legalMicroservice_pb2_grpc, LegalMS_grpc
+import legalMicroservice_pb2, legalMicroservice_pb2_grpc, valueMS_pb2_grpc, valueMS_pb2, proximityMicroservice_pb2_grpc, proximityMicroservice_pb2
 app = FastAPI()
 
 app.add_middleware(
@@ -36,7 +34,7 @@ def get_rank(locations: List[str]):
     nlocs = ""
     for location in locations:
          nlocs = location + "," + nlocs
-    with grpc.insecure_channel('localhost:50050') as channel:
+    with grpc.insecure_channel('localhost:50051') as channel:
             stub = valueMS_pb2_grpc.valueMicroserviceStub(channel)
             try:
                 print("Retrieving the response from a serialReq")
@@ -48,21 +46,32 @@ def get_rank(locations: List[str]):
             except grpc.RpcError as e:
                 print("Error: " , e.details())
     # policy microservice ranking (Astha)
-    LMS_locs = ','.join(locations)   # covert list to a string
-    with grpc.insecure_channel('localhost:50051') as channel:
+    with grpc.insecure_channel('localhost:50052') as channel:
         LMS_stub = legalMicroservice_pb2_grpc.legalMicroserviceStub(channel)
         try:
-            LMS_response_str = LMS_stub.getLocations(legalMicroservice_pb2.Locations(locations=LMS_locs))
+            LMS_response_str = LMS_stub.getLocations(legalMicroservice_pb2.Locations(locations=nlocs))
             # convert response (string) into an array
-            LMS_response = LMS_response_str.split(',')  # expected: 1D array of available locations
+            LMS_response = LMS_response_str.status.split(',')  # expected: 1D array of available locations
+            print(LMS_response)
         except grpc.RpcError as e:
             if e.code() == grpc.StatusCode.NOT_FOUND:
                 raise HTTPException(status_code=404, detail='Response not found')
-
-    # values microservice ranking (Shadman)
+           #  print(LMS_response)
+    # prox microservice ranking (Shadman)
+    with grpc.insecure_channel('localhost:50053') as channel:
+        prox_stub = proximityMicroservice_pb2_grpc.rankProxStub(channel)
+        try:
+            print("Retrieving the response from a serialReq")
+            proxResponse = prox_stub.getCommute(proximityMicroservice_pb2.rankProxRequest(rankPlease=nlocs))
+            # print("response:" + str(response))
+            print("Thinking")
+            print("RANKING:" + proxResponse.rankings)
+            print("DONE RANKING")
+        except grpc.RpcError as e:
+            print("Error: ", e.details())
 
     # combine rankings (Hassan)
-    print(locations)
+
     return sorted(locations)
 
 

@@ -73,7 +73,7 @@ def serve():  # GRPC stuff.
     print("SERVIN'!")
     server = grpc.server(concurrent.futures.ThreadPoolExecutor(max_workers=10))
     proximityMicroservice_pb2_grpc.add_rankProxServicer_to_server(main(), server)
-    server.add_insecure_port('[::]:50051')
+    server.add_insecure_port('[::]:50053')
     server.start()
     server.wait_for_termination()
 

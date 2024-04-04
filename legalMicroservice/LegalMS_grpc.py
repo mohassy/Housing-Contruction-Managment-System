@@ -24,7 +24,7 @@ def serve():
     legalMicroservice_pb2_grpc.add_legalMicroserviceServicer_to_server(LegalMS(), server)
 
     # assign a port
-    server.add_insecure_port('[::]:50051')  # port number yet to be decided
+    server.add_insecure_port('[::]:50052')  # port number yet to be decided
     server.start()
     logging.info("LegalMS Server started on port 50051")
     server.wait_for_termination()
