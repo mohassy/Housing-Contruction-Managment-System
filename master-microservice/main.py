@@ -36,7 +36,7 @@ def get_rank(locations: List[str]):
     nlocs = ""
     for location in locations:
          nlocs = location + "," + nlocs
-    with grpc.insecure_channel('localhost:50051') as channel:
+    with grpc.insecure_channel('localhost:50050') as channel:
             stub = valueMS_pb2_grpc.valueMicroserviceStub(channel)
             try:
                 print("Retrieving the response from a serialReq")
