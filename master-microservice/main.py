@@ -12,6 +12,9 @@ import os
 sys.path.append("../value-microservice/")
 import valueMS_pb2_grpc
 import valueMS_pb2
+sys.path.append("../proximity-microservice/")
+import proximityMicroservice_pb2_grpc
+import proximityMicroservice_pb2
 from app.controllers import project_controller, stakeholder_controller, task_controller, post_controller
 from legalMicroservice import legalMicroservice_pb2, legalMicroservice_pb2_grpc, LegalMS_grpc
 app = FastAPI()
@@ -59,8 +62,21 @@ def get_rank(locations: List[str]):
             if e.code() == grpc.StatusCode.NOT_FOUND:
                 raise HTTPException(status_code=404, detail='Response not found')
 
-    # values microservice ranking (Shadman)
-
+    # Proximity microservice ranking (Shadman)
+    nlocs = ""
+    for location in locations:
+         nlocs = location + "," + nlocs
+    with grpc.insecure_channel('localhost:50052') as channel:
+            stub = proximityMicroservice_pb2_grpc.rankProxStub(channel)
+            try:
+                print("Retrieving the response from a serialReq")
+                response = stub.getComm(proximityMicroservice_pb2.rankProxRequest(locations=nlocs))
+                #print("response:" + str(response))
+                print("Thinking")
+                print("RANKING:" + rankedResponse.rankings)
+                print("DONE RANKING")
+            except grpc.RpcError as e:
+                print("Error: " , e.details())
     # combine rankings (Hassan)
     print(locations)
     return sorted(locations)
