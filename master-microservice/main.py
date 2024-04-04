@@ -5,6 +5,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 import os
+sys.path.append("../value-microservice/")
+import valueMS_pb2_grpc
+import valueMS_pb2
 from app.controllers import project_controller, stakeholder_controller, task_controller, post_controller
 from legalMicroservice import legalMicroservice_pb2, legalMicroservice_pb2_grpc, LegalMS_grpc
 app = FastAPI()
@@ -26,7 +29,20 @@ app.include_router(post_controller.router, prefix="/post")
 @app.post("/rank", response_model=List[str])
 def get_rank(locations: List[str]):
     # values microservice ranking (Ethan)
-
+    nlocs = ""
+    for location in locations:
+         nlocs = location + "," + nlocs
+    with grpc.insecure_channel('localhost:50051') as channel:
+            stub = valueMS_pb2_grpc.valueMicroserviceStub(channel)
+            try:
+                print("Retrieving the response from a serialReq")
+                response = stub.getEnv(valueMS_pb2.rankreq(locations=nlocs))
+                #print("response:" + str(response))
+                print("Hm?")
+                print("RANKING:" + response.rankings)
+                print("DONE RANKING")
+            except grpc.RpcError as e:
+                print("Error: " , e.details())
     # policy microservice ranking (Astha)
     LMS_locs = ','.join(locations)   # covert list to a string
     with grpc.insecure_channel('localhost:50051') as channel:
