@@ -1,10 +1,4 @@
-import uvicorn
-from fastapi import FastAPI
-from dotenv import load_dotenv
 import os
-import requests
-from typing import Union
-from pydantic import BaseModel
 import concurrent.futures
 import valueMS_pb2
 import valueMS_pb2_grpc
