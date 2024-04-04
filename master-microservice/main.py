@@ -107,38 +107,6 @@ def get_rank(locations: List[str]):
     return sorted(locations)
 
 
-<<<<<<< Updated upstream
-=======
-
-@app.post("/rank", response_model=List[str])
-def get_rank(locations: List[str]):
-
-    # values microservice ranking (Ethan)
-    nlocs = ""
-    for location in locations:
-         nlocs = location + "," + nlocs
-    with grpc.insecure_channel('localhost:50051') as channel:
-            stub = valueMS_pb2_grpc.valueMicroserviceStub(channel)
-            try:
-                print("Retrieving the response from a serialReq")
-                response = stub.getEnv(valueMS_pb2.rankreq(locations=nlocs))
-                #print("response:" + str(response))
-                print("Hm?")
-                print("RANKING:" + response.rankings)
-                print("DONE RANKING")
-            except grpc.RpcError as e:
-                print("Error: " , e.details())
-
-    # policy microservice ranking (Astha)
-
-    # values microservice ranking (Shadman)
-
-    # combine rankings (Hassan)
-    print(locations)
-    return sorted(locations)
-
-
->>>>>>> Stashed changes
 load_dotenv(dotenv_path='./app/config/.env')
 
 if __name__ == "__main__":
