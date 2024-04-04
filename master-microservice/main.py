@@ -13,10 +13,14 @@ sys.path.append("../value-microservice/")
 import valueMS_pb2_grpc
 import valueMS_pb2
 sys.path.append("../proximity-microservice/")
+sys.path.append("../legalMicroservice/")
 import proximityMicroservice_pb2_grpc
 import proximityMicroservice_pb2
 from app.controllers import project_controller, stakeholder_controller, task_controller, post_controller
-from legalMicroservice import legalMicroservice_pb2, legalMicroservice_pb2_grpc, LegalMS_grpc
+import legalMicroservice_pb2
+import legalMicroservice_pb2_grpc
+import  LegalMS_grpc
+#from legalMicroservice import legalMicroservice_pb2, legalMicroservice_pb2_grpc, LegalMS_grpc
 app = FastAPI()
 
 app.add_middleware(
@@ -42,7 +46,7 @@ def get_rank(locations: List[str]):
     with grpc.insecure_channel('localhost:50050') as channel:
             stub = valueMS_pb2_grpc.valueMicroserviceStub(channel)
             try:
-                print("Retrieving the response from a serialReq")
+                print("Retrieving the response from a getEnvironment")
                 response = stub.getEnv(valueMS_pb2.rankreq(locations=nlocs))
                 #print("response:" + str(response))
                 print("Hm?")
@@ -70,7 +74,7 @@ def get_rank(locations: List[str]):
             stub = proximityMicroservice_pb2_grpc.rankProxStub(channel)
             try:
                 print("Retrieving the response from a serialReq")
-                response = stub.getComm(proximityMicroservice_pb2.rankProxRequest(locations=nlocs))
+                response = stub.getCommute(proximityMicroservice_pb2.rankProxRequest(locations=nlocs))
                 #print("response:" + str(response))
                 print("Thinking")
                 print("RANKING:" + rankedResponse.rankings)
