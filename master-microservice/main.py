@@ -7,13 +7,10 @@ from dotenv import load_dotenv
 import grpc
 import sys
 
-
 import os
 sys.path.append("../value-microservice/")
-<<<<<<< HEAD
 from app.controllers import project_controller, stakeholder_controller, task_controller, post_controller
 import legalMicroservice_pb2, legalMicroservice_pb2_grpc, valueMS_pb2_grpc, valueMS_pb2, proximityMicroservice_pb2_grpc, proximityMicroservice_pb2
-=======
 import valueMS_pb2_grpc
 import valueMS_pb2
 sys.path.append("../proximity-microservice/")
@@ -23,9 +20,7 @@ import proximityMicroservice_pb2
 from app.controllers import project_controller, stakeholder_controller, task_controller, post_controller
 import legalMicroservice_pb2
 import legalMicroservice_pb2_grpc
-import  LegalMS_grpc
-#from legalMicroservice import legalMicroservice_pb2, legalMicroservice_pb2_grpc, LegalMS_grpc
->>>>>>> 89e403726fc1ce052c78ccb648701b681c8672ba
+
 app = FastAPI()
 
 app.add_middleware(
@@ -70,8 +65,6 @@ def get_rank(locations: List[str]):
         except grpc.RpcError as e:
             if e.code() == grpc.StatusCode.NOT_FOUND:
                 raise HTTPException(status_code=404, detail='Response not found')
-<<<<<<< HEAD
-           #  print(LMS_response)
     # prox microservice ranking (Shadman)
     with grpc.insecure_channel('localhost:50053') as channel:
         prox_stub = proximityMicroservice_pb2_grpc.rankProxStub(channel)
@@ -84,25 +77,6 @@ def get_rank(locations: List[str]):
             print("DONE RANKING")
         except grpc.RpcError as e:
             print("Error: ", e.details())
-
-=======
-
-    # Proximity microservice ranking (Shadman)
-    nlocs = ""
-    for location in locations:
-         nlocs = location + "," + nlocs
-    with grpc.insecure_channel('localhost:50052') as channel:
-            stub = proximityMicroservice_pb2_grpc.rankProxStub(channel)
-            try:
-                print("Retrieving the response from a serialReq")
-                response = stub.getCommute(proximityMicroservice_pb2.rankProxRequest(locations=nlocs))
-                #print("response:" + str(response))
-                print("Thinking")
-                print("RANKING:" + rankedResponse.rankings)
-                print("DONE RANKING")
-            except grpc.RpcError as e:
-                print("Error: " , e.details())
->>>>>>> 89e403726fc1ce052c78ccb648701b681c8672ba
     # combine rankings (Hassan)
 
     return sorted(locations)
