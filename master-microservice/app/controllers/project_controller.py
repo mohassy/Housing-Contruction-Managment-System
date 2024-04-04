@@ -2,7 +2,7 @@ import time
 
 from fastapi import APIRouter, HTTPException
 
-from app.models.models import Project
+from app.models.models import Project, BudgetEdit, StatusEdit
 from app.services.Service import Service
 
 router = APIRouter()
@@ -37,13 +37,14 @@ async def get_budget(project_id: int):
     return project.budget
 
 
-@router.put("/budget/{project_id}", response_model=Project)
-async def edit_budget(project_id: int, new_budget: float):
+@router.put("/budget/{project_id}", response_model=float)
+async def edit_budget(project_id: int, budget: BudgetEdit):
     project = service.get_project(project_id)
     if project is None:
         raise HTTPException(status_code=404, detail="Project not found")
-    project.budget = new_budget
-    return project
+    project.budget = budget.new_budget
+    service.update_project(project_id, project)
+    return project.budget
 
 
 @router.get("/status/{project_id}", response_model=str)
@@ -54,10 +55,11 @@ async def get_project_status(project_id: int):
     return project.status
 
 
-@router.put("/status/{project_id}", response_model=Project)
-async def edit_project_status(project_id: int, new_status: str):
+@router.put("/status/{project_id}", response_model=str)
+async def edit_project_status(project_id: int , status: StatusEdit):
     project = service.get_project(project_id)
     if project is None:
         raise HTTPException(status_code=404, detail="Project not found")
-    project.status = new_status
-    return project
+    project.status = status.new_status
+    service.update_project(project_id, project)
+    return project.status

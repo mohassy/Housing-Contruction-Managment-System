@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException
 from typing_extensions import List
 
 from app.services.Service import Service
-from app.models.models import Project, Post
+from app.models.models import Project, Post, Task
 
 router = APIRouter()
 
@@ -28,6 +28,21 @@ async def create_post(project_id: int, post: Post):
     project.posts.append(post)
     service.update_project(project.id, project)
     return project.posts
+
+
+@router.put("/{project_id}/{post_id}", response_model=Post)
+async def edit_task(project_id: int, post_id: int, updated_post: Post):
+    project = service.get_project(project_id)
+    if project is None:
+        raise HTTPException(status_code=404, detail="Project not found")
+    for post in project.posts:
+        if post.id == post_id:
+            post.text = updated_post.text
+            post.author = updated_post.author
+            post.status = updated_post.status
+            break
+    service.update_project(project_id, project)
+    return updated_post
 
 
 @router.delete("/{project_id}", response_model=List[Post])

@@ -1,5 +1,5 @@
 import { useState} from 'react';
-import { Row, Card, Form, Button, Table } from 'react-bootstrap';
+import {Card, Form, Button, Table, Col} from 'react-bootstrap';
 import {Stakeholder} from './models';
 import {useParams} from "react-router-dom"; // Import your Stakeholder model
 
@@ -67,7 +67,7 @@ const Stakeholders = ({project_stakeholders}: StakeholdersProps) => {
         }
     }
     return (
-        <Row className="d-flex justify-content-center align-items-center">
+        <Col className="h-75 bg-body-secondary justify-content-center align-items-center">
             <Card className="rounded-3">
                 <Card.Body className="p-4">
                     <h4 className="text-center my-3 pb-3">Project Stakeholders</h4>
@@ -112,7 +112,7 @@ const Stakeholders = ({project_stakeholders}: StakeholdersProps) => {
                     </Table>
                 </Card.Body>
             </Card>
-        </Row>
+        </Col>
     );
 }
 

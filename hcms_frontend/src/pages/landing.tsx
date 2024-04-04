@@ -5,7 +5,7 @@ const LandingPage: React.FC = () => {
     const [projectName, setProjectName] = useState('');
     const [managerName, setManagerName] = useState('');
     const [budget, setBudget] = useState('');
-    const [projectID, setProjectID] = useState<number>();
+    const [projectID, setProjectID] = useState<number>(0);
     const [errorShow, setErrorShow] = useState(false);
     const navigate = useNavigate();
     const handleCreateProject = async (e: React.FormEvent) => {
@@ -117,7 +117,7 @@ const LandingPage: React.FC = () => {
                     <Form>
                         <Form.Group controlId="formProjectID" className="mt-3 mb-3">
                             <Form.Label className="me-3">Project ID</Form.Label>
-                            <Form.Control type="number" placeholder="Enter Project ID" value={projectID} onChange={(e) => setProjectID(parseInt(e.target.value))} />
+                            <Form.Control type="number" placeholder="Enter Project ID" onChange={(e) => setProjectID(parseInt(e.target.value))} />
                         </Form.Group>
                         <Button variant="primary" onClick={handleProjectID}>Continue</Button>
                     </Form>

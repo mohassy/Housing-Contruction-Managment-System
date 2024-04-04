@@ -1,0 +1,4 @@
+.fixed-height {
+    min-height: 80vh;
+    overflow-y: auto;
+}

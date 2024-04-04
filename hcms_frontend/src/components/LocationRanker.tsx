@@ -36,10 +36,26 @@ const LocationRanker = () => {
         }
     };
 
-    const handleRankSubmit = () => {
-        // Here you can implement your ranking logic
-        // For now, let's just print the ranked locations in the console
-        console.log('Ranked Locations:', locations);
+    const handleRankSubmit = async() => {
+        try {
+            // Make API request
+            const response = await fetch(`http://localhost:8000/rank`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify([...locations]),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to rank locations');
+            }
+
+            // Assuming successful addition, update the state to add the new task
+            const rankedLocations = await response.json();
+            setLocations(rankedLocations);
+        } catch (error) {
+            console.error('Error adding task:', error);
+        }
     };
 
     const handleDeleteLocation = (index: number) => {
@@ -49,7 +65,7 @@ const LocationRanker = () => {
     };
 
     return (
-        <Col className={"w-50 bg-body-secondary p-3"}>
+        <Col className={"h-75 bg-body-secondary"}>
             <Tabs defaultActiveKey="addLocation" className="mb-4">
                 <Tab eventKey="addLocation" title="Add Location">
                     <Form onSubmit={handleLocationSubmit} className="">
@@ -69,7 +85,7 @@ const LocationRanker = () => {
                     </Form>
                 </Tab>
                 <Tab eventKey="rankLocation" title="Rank Locations">
-                    <Button className={"m-3"} variant="primary" onClick={handleRankSubmit}>
+                    <Button className={"w-25 ms-3"} variant="primary" onClick={handleRankSubmit}>
                         Rank
                     </Button>
                     <Table striped bordered hover className="m-3">

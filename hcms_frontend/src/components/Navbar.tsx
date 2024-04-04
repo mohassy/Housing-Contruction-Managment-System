@@ -1,15 +1,14 @@
 import {Container, Navbar} from 'react-bootstrap';
 
-const NavComp = () => {
+
+const Nav = ({ title }: { title: string }) => {
     return (
-        <Container>
-            <Navbar expand="lg" className="bg-body-tertiary">
-                <Container className="text-center">
-                    <Navbar.Brand href="#">Housing Construction Management System</Navbar.Brand>
-                </Container>
-            </Navbar>
-        </Container>
+        <Navbar bg="dark" data-bs-theme="dark">
+            <Container className={"d-flex justify-content-center"}>
+                <Navbar.Brand>WELCOME TO {title.toUpperCase()}</Navbar.Brand>
+            </Container>
+        </Navbar>
     );
 }
 
-export default NavComp;
+export default Nav;
