@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package proxPackage;
+
+service rankProx {
+    rpc getCommute (rankProxRequest) returns (rankedProxResponse){}
+    rpc getDrive (rankProxRequest) returns (rankedProxResponse){}
+    rpc getCommDrive (rankProxRequest) returns (rankedProxResponse){}
+}
+
+// The request message containing the request.
+message rankProxRequest {
+ string rankPlease = 1;
+}
+
+// The response message containing the area.
+message rankedProxResponse {
+  string rankedAreas = 1;
+  float rankings = 2;
+  string rankedResponse = 3;
+}
