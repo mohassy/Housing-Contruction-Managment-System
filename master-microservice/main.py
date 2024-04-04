@@ -6,10 +6,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 import grpc
 import sys
-sys.path.append("../value-microservice/")
-
-import valueMS_pb2_grpc
-import valueMS_pb2
 
 
 import os
@@ -89,6 +85,7 @@ def get_rank(locations: List[str]):
             except grpc.RpcError as e:
                 print("Error: " , e.details())
     # policy microservice ranking (Astha)
+
     LMS_locs = ','.join(locations)   # covert list to a string
     with grpc.insecure_channel('localhost:50051') as channel:
         LMS_stub = legalMicroservice_pb2_grpc.legalMicroserviceStub(channel)
