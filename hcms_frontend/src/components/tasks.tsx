@@ -121,7 +121,8 @@ const Tasks = ({ project_tasks }: TasksProps) => {
                                 <tr key={index}>
                                     <th>{task.id}</th>
                                     <td>{task.description}</td>
-                                    <td>{task.date_due.toString()}</td>
+                                    <td>{task.date_due.toLocaleString('UTC')}</td>
+
                                     <td>{task.assigned_stakeholder}</td>
                                     <td>{task.complete ? 'Complete' : 'In Progress'}</td>
                                     <td>
