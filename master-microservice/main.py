@@ -70,13 +70,14 @@ def get_rank(locations: List[str]):
         prox_stub = proximityMicroservice_pb2_grpc.rankProxStub(channel)
         try:
             print("Retrieving the response from a serialReq")
-            proxResponse = prox_stub.getCommute(proximityMicroservice_pb2.rankProxRequest(rankPlease=nlocs))
+            proxResponse = prox_stub.getCommute(proximityMicroservice_pb2.rankProxRequest(rankPlease=str(nlocs)))
             # print("response:" + str(response))
             print("Thinking")
-            print("RANKING:" + proxResponse.rankings)
+            print("RANKING:" + proxResponse.rankedAreas)
             print("DONE RANKING")
         except grpc.RpcError as e:
             print("Error: ", e.details())
+
     # combine rankings (Hassan)
 
     return sorted(locations)

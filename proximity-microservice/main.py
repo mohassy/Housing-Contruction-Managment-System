@@ -57,8 +57,8 @@ class main(proximityMicroservice_pb2_grpc.rankProxServicer):
                 # should we return an exception??
 
     def getCommute(self, request, context):
-        self.updateLists(request.locations)
-        return proximityMicroservice_pb2.ranking(rankings={str(self.getRanking(0))}, response="NOT IMPLEMENTED YET!")
+        self.updateLists(request.rankPlease)
+        return proximityMicroservice_pb2.rankedProxResponse(rankedAreas=str(self.getRanking(0)), rankings=1, rankedResponse="NOT IMPLEMENTED YET!")
 
     def getDrive(self, request, context):
         self.updateLists(request.locations)
