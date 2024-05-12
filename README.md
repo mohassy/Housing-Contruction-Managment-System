@@ -20,16 +20,15 @@ server should be up and running
 go to http://localhost:8000/docs on a browser to see and test api endpoints
 
 # Technologies
-Technologies
-Frontend (React + Bootstrap + SCSS) 
-	The frontend is developed using React to communicate with the backend 
+### Frontend (React + Bootstrap + SCSS)
+The frontend is developed using React to communicate with the backend 
 module. React will enable the frontend to trigger HTTP requests to specific endpoints exposed by the backend’s RESTful APIs, facilitating efficient data retrieval and UI updates. This includes data related to proximity, value, policy/legal considerations, and other housing construction parameters.  
 
-Backend (Master Microservice)
-	The master microservice includes seamless integration with both gRPC and RESTful APIs, ensuring that microservices written in Python can effectively communicate using these protocols. In the microservices architecture of the HCMS, each microservice is implemented to communicate efficiently with others, employing a dual communication mechanism consisting of gRPC and REST APIs. 
+### Backend (Master Microservice)
+The master microservice includes seamless integration with both gRPC and RESTful APIs, ensuring that microservices written in Python can effectively communicate using these protocols. In the microservices architecture of the HCMS, each microservice is implemented to communicate efficiently with others, employing a dual communication mechanism consisting of gRPC and REST APIs. 
 
-Database (Firebase) 
-	Each microservice will manage its own data via CSV, however project information will be stored on Firebase. This will make CRUD operations as efficient as possible since it will require the least amount of data consistency and integrity management
+### Database (Firebase) 
+Each microservice will manage its own data via CSV, however project information will be stored on Firebase by the master microservice. This will make CRUD operations as efficient as possible since it will require the least amount of data consistency and integrity management
 
 # Architecture
 Microservices architecture
